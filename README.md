@@ -1,3 +1,3 @@
-Author: He H
+Author: He
 Email: blackmax993@gmail.com 
-个人练习之作
+原神抽卡模拟器，个人练手之作。
