@@ -18,14 +18,23 @@ def rolls_single():
         if rough < 0:
             rough = rough + 160
             count = count - 1
-            messagebox.showinfo(title='抽卡数', message=f'剩余原石:{rough},原石数不足！！！')
+            messagebox.showinfo(title='抽卡数', message='原石数不足！！！')
+            text.insert(tk.END, '原石数不足！！！\n')
+            text.see('end')
             rough_var_lable.set(f"当前原石数：{rough}")
+            count_var_label.set(f"目前抽取次数：{count}")
             return rough
         else:
-            messagebox.showinfo(title='抽卡数', message=f'已经抽取了{count}抽,剩余原石:{rough},本次抽出 \n  {roll_result} 一个')
-            show_list.append(roll_result)
+            # messagebox.showinfo(title='抽卡数', message=f'已经抽取了{count}抽,剩余原石:{rough},本次抽出 \n  {roll_result} 一个')
+            if roll_result != '答辩':
+                text.insert(tk.END, f' !!!出金 {count} 本次抽出 {roll_result} 一个 !!!\n')
+                text.see('end')
+                show_list.append(roll_result)
+            else:
+                text.insert(tk.END, f' {count} 本次抽出 {roll_result} 一个\n')
+                text.see('end')
+                show_list.append(roll_result)
         return count, rough, show_list
-
     roll_return = roll_single(1)
     roll_result = roll_return[0]
     roll_squence = roll_return[1]
@@ -36,24 +45,24 @@ def rolls_single():
 
 def rolls_ten():
     global count, rough, show_list, five_st_squence
+
     if rough < 1600:
         messagebox.showinfo(title='抽卡数', message=f'剩余原石:{rough},原石数不足！！！')
         return count
     else:
+        roll_return = roll_ten(10)
+        roll_result = roll_return[0]
+        roll_squence = roll_return[1]
+        five_st_squence.append(roll_squence)
         for item in range(1, 11, 1):
             count = count + 1
             rough = rough - 160
+            text.insert(tk.END, f' {count} 本次抽出 {roll_result[item - 1]} 一个\n')
+            text.see('end')
+            show_list.append(roll_result[item - 1])
     count_var_label.set(f"目前抽取次数：{count}")
     rough_var_lable.set(f"当前原石数：{rough}")
-    roll_return = roll_ten(10)
-    roll_result = roll_return[0]
-    roll_squence = roll_return[1]
-    five_st_squence.append(roll_squence)
-    ten_text = ' '.join(roll_result)
-    messagebox.showinfo(title='抽卡数',
-                        message=f'已经抽取了{count}抽,剩余原石:{rough},本次抽出 \n {ten_text}')
-    for i in range(0, 10, 1):
-        show_list.append(roll_result[i])
+    # messagebox.showinfo(title='抽卡数', message=f'已经抽取了{count}抽,剩余原石:{rough},本次抽出 \n {ten_text}')
     return count, show_list
 
 
@@ -83,7 +92,6 @@ def show_history():
     global show_list, count, five_st_squence
     five_result = []
     four_result = []
-    Things = ['刻晴', '琴', '提纳里', '七七', '莫娜', '迪卢克', '胡桃', '答辩']
     for item in range(0, len(show_list), 1):
         if show_list[item] == '答辩':
             four_result.append(show_list[item])
@@ -124,6 +132,7 @@ rough = 20000  # 原石数
 count = 0
 show_list = []
 five_st_squence = []
+Gacha_Things = ['刻晴', '琴', '提纳里', '七七', '莫娜', '迪卢克', '胡桃', '答辩']
 
 root_window = tk.Tk()  # 创建Window窗口对象
 
@@ -142,6 +151,9 @@ background_label = Label(root_window, image=filename)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 tk.Label(root_window, text='赤团开时', bg='Yellow', fg='Red', font=('楷体', 50)).pack()  # 添加文本内容,设置字体的前景色和背景色，和字体类型、大小
+
+text = tk.Text(root_window, height=5, width=30)
+text.pack()
 
 count_var_label = tk.StringVar()
 add_one = tk.StringVar()
