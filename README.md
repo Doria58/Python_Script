@@ -5,3 +5,6 @@ Email: blackmax993@gmail.com
 1. 1-73抽0.6%，74-89抽逐次增加6%概率，90抽必出金
 2. 大小保底
 3. 图形化
+
+
+运行方式：  python GUI.py
